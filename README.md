@@ -4,7 +4,19 @@
 
 > **Connect the dots without connecting to the cloud.**
 
-**ArkhamMirror** is a local-first, air-gapped investigation platform for journalists. It ingests complex documents (PDFs, images, handwriting), extracts text using hybrid OCR (PaddleOCR + Qwen-VL), and enables semantic search, anomaly detection, and "chat with your data" capabilities—all running 100% locally on your hardware.
+### The insane part
+
+I am not a developer. I can't read code. I can't write code. I honestly have no idea what I'm doing.
+
+About a week ago I got angry that pretty much every investigative document tool forces journalists to upload sensitive leaks to the cloud, most of them cost money, and most of them kill your privacy.  
+
+So I opened free-tier Claude, Gemini, Qwen, GPT, and Grok tabs and said: “I don't want to pay for cloud services.  I don't want to be rate limited. You are my dev team. Build me a 100% local version. MIT license. Oh yeah, one more thing. $0 budget.”  
+
+A few days into seeing just how far I could go with the tools I had, this exists.  It started as a personal project to use and keep for myself, but my "AI dev team" convinced me that it needed to be shared with the world, so here we are.
+
+If a complete non-coder can ship this in a week, imagine what you can do.
+
+**ArkhamMirror** is a local-first, air-gapped investigation platform for journalists or anyone else looking for the truth in documents. It ingests complex documents (PDFs, images, handwriting), extracts text using hybrid OCR (PaddleOCR + Qwen-VL), and enables semantic search, anomaly detection, and "chat with your data" capabilities—all running 100% locally on your hardware.
 
 ## 🚀 Features
 
