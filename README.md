@@ -124,10 +124,10 @@ ArkhamMirror is **free and open source**, built to empower journalists, research
 ### Ways to Support
 
 [![GitHub Sponsors](https://img.shields.io/badge/Sponsor-GitHub-EA4AAA?style=for-the-badge&logo=github)](https://github.com/sponsors/mantisfury)
-[![Ko-fi](https://img.shields.io/badge/Support-Ko--fi-FF5E5B?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/arkham_mirror)
+[![Ko-fi](https://img.shields.io/badge/Support-Ko--fi-FF5E5B?style=for-the-badge&logo=ko-fi&logoColor=white)](https://ko-fi.com/arkhammirror)
 
 * **[GitHub Sponsors](https://github.com/sponsors/mantisfury)** - Zero fees, recurring or one-time support
-* **[Ko-fi](https://ko-fi.com/arkham_mirror)** - Quick one-time donations
+* **[Ko-fi](https://ko-fi.com/arkhammirror)** - Quick one-time donations
 
 **Every contribution matters!** Even $5 helps keep the servers running and the code flowing.
 

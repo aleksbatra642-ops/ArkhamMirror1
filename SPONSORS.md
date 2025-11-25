@@ -10,7 +10,7 @@ Thank you to everyone who supports ArkhamMirror! Your contributions help keep th
 
 ### Ko-fi Supporters
 
-*Become the first supporter on [Ko-fi](https://ko-fi.com/arkham_mirror)!*
+*Become the first supporter on [Ko-fi](https://ko-fi.com/arkhammirror)!*
 
 ---
 
@@ -52,7 +52,7 @@ Your donations directly fund:
 ## How to Become a Sponsor
 
 1. **GitHub Sponsors**: [https://github.com/sponsors/mantisfury](https://github.com/sponsors/mantisfury)
-2. **Ko-fi (one-time or monthly)**: [https://ko-fi.com/arkham_mirror](https://ko-fi.com/arkham_mirror)
+2. **Ko-fi (one-time or monthly)**: [https://ko-fi.com/arkhammirror](https://ko-fi.com/arkhammirror)
 
 Every contribution, no matter how small, makes a difference! Thank you for supporting open-source journalism tools.
 
