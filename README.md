@@ -18,6 +18,8 @@ If a complete non-coder can ship this in a week, imagine what you can do.
 
 **ArkhamMirror** is a local-first, air-gapped investigation platform for journalists or anyone else looking for the truth in documents. It ingests complex documents (PDFs, images, handwriting), extracts text using hybrid OCR (PaddleOCR + Qwen-VL), and enables semantic search, anomaly detection, and "chat with your data" capabilities—all running 100% locally on your hardware.
 
+![ArkhamMirror Demo](assets/ArkhamMirrorDemo.gif)
+
 ## 🚀 Features
 
 * **Hybrid OCR Engine**: Automatically switches between fast CPU-based OCR (PaddleOCR) and smart GPU-based Vision LLMs (Qwen-VL) for complex layouts and handwriting.
