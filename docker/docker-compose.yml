@@ -1,6 +1,24 @@
 services:
+  # Init container: cleans up .gitkeep files that would prevent services from starting
+  init:
+    image: busybox:latest
+    volumes:
+      - ../DataSilo:/datasilo
+    command: >
+      sh -c "
+        rm -f /datasilo/postgres/.gitkeep 2>/dev/null;
+        rm -f /datasilo/qdrant/.gitkeep 2>/dev/null;
+        rm -f /datasilo/redis/.gitkeep 2>/dev/null;
+        mkdir -p /datasilo/postgres/data;
+        echo 'DataSilo initialized';
+      "
+    restart: "no"
+
   postgres:
     image: postgres:15
+    depends_on:
+      init:
+        condition: service_completed_successfully
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-anom}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-anompass}
@@ -10,19 +28,28 @@ services:
     ports:
       - "127.0.0.1:5435:5432"
     restart: unless-stopped
+
   qdrant:
     image: qdrant/qdrant:latest
+    depends_on:
+      init:
+        condition: service_completed_successfully
     environment:
       QDRANT__SERVICE__HTTP_PORT: 6333
       QDRANT__SERVICE__GRPC_PORT: 6334
+      QDRANT__TELEMETRY_DISABLED: ${QDRANT_TELEMETRY_DISABLED:-true}
     volumes:
       - ../DataSilo/qdrant:/qdrant/storage
     ports:
       - "127.0.0.1:6343:6333"
       - "127.0.0.1:6344:6334"
     restart: unless-stopped
+
   redis:
     image: redis:7
+    depends_on:
+      init:
+        condition: service_completed_successfully
     ports:
       - "127.0.0.1:6380:6379"
     volumes:

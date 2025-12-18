@@ -16,6 +16,7 @@
 # CORE FRAMEWORK
 # =============================================================================
 reflex==0.7.14
+uvicorn>=0.30.0                          # ASGI server (required by Reflex)
 
 # =============================================================================
 # DATA SCIENCE & MACHINE LEARNING (Lightweight)

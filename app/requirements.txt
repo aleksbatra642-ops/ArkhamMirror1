@@ -14,6 +14,7 @@
 # =============================================================================
 # Reflex 0.7.14 uses Next.js - versions 0.8.x use Vite/react-router which breaks Chrome
 reflex==0.7.14
+uvicorn>=0.30.0                          # ASGI server (required by Reflex)
 
 # =============================================================================
 # DATA SCIENCE & MACHINE LEARNING

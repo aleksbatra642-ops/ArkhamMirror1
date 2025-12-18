@@ -1,0 +1,10 @@
+/* Inter Font - Self-hosted for privacy */
+/* Downloaded from Google Fonts to avoid external network requests */
+
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url('/fonts/Inter-VariableFont.woff2') format('woff2');
+}

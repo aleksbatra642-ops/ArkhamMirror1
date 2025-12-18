@@ -47,9 +47,9 @@ chmod +x setup.sh
 
 Detailed guides for features and workflows:
 
-* **[User Guide](docs/index.md#user-guide)**: Full walkthrough of features.
-* **[Installation](docs/user_guide/01-getting-started.md)**: Detailed setup instructions.
-* **[Developer Guide](docs/index.md#developer-guide)**: Architecture and contributing.
+* **[User Guide](docs/USER_GUIDE.md)**: Full walkthrough of features and setup.
+* **[Network & Privacy](docs/NETWORK.md)**: What gets downloaded, telemetry options, and air-gapped operation.
+* **[ACH Analysis Guide](docs/ACH_GUIDE.md)**: Analysis of Competing Hypotheses methodology.
 
 ---
 

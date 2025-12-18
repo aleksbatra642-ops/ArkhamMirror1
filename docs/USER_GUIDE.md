@@ -16,7 +16,7 @@ ArkhamMirror is a **local-first document intelligence platform** built for inves
 
 **Most importantly:** All your data stays on YOUR computer. Nothing goes to the cloud.
 
-> **Version Note**: This guide covers **ArkhamMirror v1.0+** (Reflex-based UI). If you're looking for the old Streamlit version (v0.x), see the legacy documentation in `arkham_mirror/streamlit_app/`.
+> **Important:** Initial setup requires an internet connection to download AI models and dependencies. After setup, ArkhamMirror runs fully offline. See **[Network & Privacy Guide](NETWORK.md)** for details on what gets downloaded and how to run in air-gapped environments.
 
 ---
 
@@ -32,7 +32,14 @@ Before you start, make sure you have:
 2. **Basic software** (we'll help you install these):
    * Docker Desktop (runs databases)
    * Python 3.10+
+   * Node.js 18+ (for the web frontend)
    * LM Studio (runs AI models locally)
+
+3. **System libraries** (Linux/NixOS users only):
+   * `zlib` - required for some Python packages
+   * On Ubuntu/Debian: `sudo apt install zlib1g-dev`
+   * On Fedora: `sudo dnf install zlib-devel`
+   * On NixOS: add `pkgs.zlib` to your environment
 
 **Don't worry!** We'll walk you through installing everything step-by-step.
 
@@ -128,34 +135,28 @@ cd ArkhamMirror
 2. **Start the databases**:
 
    ```bash
-   cd arkham_mirror
+   cd docker
    docker compose up -d
    ```
 
    This starts PostgreSQL, Qdrant (vector database), and Redis (task queue).
 
-3. **Set up Python backend**:
+3. **Set up Python environment**:
 
    ```bash
+   cd ../app
    python -m venv venv
    .\venv\Scripts\activate    # Windows
    # source venv/bin/activate  # Mac/Linux
-   pip install -r requirements-standard.txt
-   ```
-
-4. **Set up Reflex frontend**:
-
-   ```bash
-   cd ../arkham_reflex
    pip install -r requirements.txt
    ```
 
-5. **Initialize the database**:
+   > **Note:** The first run will download AI models (~2-3 GB). This is a one-time download.
+
+4. **Download the spaCy language model**:
 
    ```bash
-   cd ../arkham_mirror
-   .\venv\Scripts\activate  # Windows
-   python backend/db/reset_db.py
+   python -m spacy download en_core_web_sm
    ```
 
 ---
@@ -165,7 +166,7 @@ cd ArkhamMirror
 1. **Start the background worker** (Terminal 1):
 
    ```bash
-   cd arkham_mirror
+   cd app
    .\venv\Scripts\activate  # Windows
    python run_rq_worker.py
    ```
@@ -175,9 +176,12 @@ cd ArkhamMirror
 2. **Start the Reflex app** (Terminal 2):
 
    ```bash
-   cd arkham_reflex
+   cd app
+   .\venv\Scripts\activate  # Windows
    reflex run
    ```
+
+   > **First run note:** Reflex will set up the frontend (npm install). This may take a few minutes.
 
 3. **Open your browser**:
    * Navigate to `http://localhost:3000`
@@ -394,10 +398,11 @@ The **Overview** page shows you statistics about your document corpus:
 
 ### Privacy & Security
 
-* **ArkhamMirror never sends data to the internet** (except to check for updates)
-* All processing happens on YOUR computer
-* Your documents are stored in `data/` folder locally
-* To delete everything: stop Docker, delete the `data/` folder
+* **Your documents never leave your computer** - all processing is local
+* All AI inference happens on YOUR machine via LM Studio
+* Your documents are stored in the `DataSilo/` folder locally
+* To delete everything: stop Docker, delete the `DataSilo/` folder
+* For details on network activity and how to run fully air-gapped, see **[Network & Privacy Guide](NETWORK.md)**
 
 ### Performance Tips
 
