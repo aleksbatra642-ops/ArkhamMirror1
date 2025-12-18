@@ -52,14 +52,19 @@ A security review identified the following issues that have been addressed:
 | Google Fonts CDN | **Fixed** | Inter font is now self-hosted in `/assets/fonts/` |
 | Qdrant telemetry default | **Fixed** | Now defaults to disabled in docker-compose.yml |
 | ModelScope connectivity check | **Fixed** | Set `PADDLE_PDX_DISABLE_MODEL_SOURCE_CHECK=True` in ocr_worker.py |
+| Cloudflare 1.1.1.1 connectivity check | **Fixed** | Set `REFLEX_HTTP_CLIENT_BIND_ADDRESS=0.0.0.0` (see below) |
 | PaddleOCR Chinese servers | Documented | One-time download; use Qwen-VL as alternative |
 | HuggingFace downloads | Documented | One-time download; can pre-download for air-gap |
 
-### Reported but Not Confirmed
+### Cloudflare 1.1.1.1 - Root Cause & Fix
 
-- `cloudflare 1.1.1.1` - No hardcoded DNS references found in codebase
+**Root Cause:** Reflex (the web framework) performs IPv4/IPv6 connectivity detection by making HTTP HEAD requests to Cloudflare's public DNS resolver IPs (`1.1.1.1` for IPv4, `2606:4700:4700::1111` for IPv6). This happens in `reflex/utils/net.py` on the first network request (e.g., version check, template download).
 
-If you observe connections to unexpected domains, please open an issue with network capture details.
+**Fix Applied:** The setup scripts (`setup.bat`, `setup.sh`) and `ai_installer.py` now set `REFLEX_HTTP_CLIENT_BIND_ADDRESS=0.0.0.0` before any Reflex imports, which skips the auto-detection.
+
+**For pure IPv6 networks:** Set `REFLEX_HTTP_CLIENT_BIND_ADDRESS=::` instead in your `.env` file.
+
+If you observe connections to other unexpected domains, please open an issue with network capture details.
 
 ### Never Contacted
 

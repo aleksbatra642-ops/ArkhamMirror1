@@ -2,6 +2,10 @@
 setlocal enabledelayedexpansion
 title ArkhamMirror Setup Wizard
 
+:: Prevent Reflex from making network calls to Cloudflare (1.1.1.1) for IPv4/IPv6 detection.
+:: This can trigger firewall alerts. Use "::" instead for pure IPv6 networks.
+set REFLEX_HTTP_CLIENT_BIND_ADDRESS=0.0.0.0
+
 echo.
  echo  ================================================================
  echo     ArkhamMirror Setup Wizard
