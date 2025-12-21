@@ -91,8 +91,8 @@ export function LLMSettings({ open, onClose }: LLMSettingsProps) {
             }`}
           >
             <span
-              className={`absolute top-0.5 w-5 h-5 bg-white rounded-full transition-transform ${
-                llmConfig.enabled ? 'translate-x-6' : 'translate-x-0.5'
+              className={`absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full transition-transform ${
+                llmConfig.enabled ? 'translate-x-6' : 'translate-x-0'
               }`}
             />
           </button>

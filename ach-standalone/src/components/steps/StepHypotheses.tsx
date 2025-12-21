@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useACHStore } from '../../store/useACHStore';
 import { Button, Dialog, TextArea } from '../ui';
-import { Plus, Edit2, Trash2, Sparkles, Loader2, AlertCircle } from 'lucide-react';
+import { Plus, Edit2, Trash2, Sparkles, Loader2, AlertCircle, Skull } from 'lucide-react';
 import { suggestHypotheses } from '../../services/llmService';
 import { GuidancePanel } from '../GuidancePanel';
 
@@ -13,6 +13,8 @@ export function StepHypotheses() {
   const showStepGuidance = useACHStore((state) => state.showStepGuidance);
   const markStepComplete = useACHStore((state) => state.markStepComplete);
   const llmConfig = useACHStore((state) => state.llmConfig);
+  const requestChallenges = useACHStore((state) => state.requestChallenges);
+  const isChallenging = useACHStore((state) => state.isChallenging);
 
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [showEditDialog, setShowEditDialog] = useState<string | null>(null);
@@ -103,6 +105,17 @@ export function StepHypotheses() {
           Hypotheses ({analysis.hypotheses.length})
         </h3>
         <div className="flex gap-2">
+          {llmConfig.enabled && analysis.hypotheses.length >= 1 && (
+            <Button
+              onClick={() => requestChallenges()}
+              variant="secondary"
+              icon={isChallenging ? <Loader2 className="w-4 h-4 animate-spin" /> : <Skull className="w-4 h-4" />}
+              disabled={isChallenging}
+              title="Devil's Advocate - AI challenges your hypotheses"
+            >
+              {isChallenging ? 'Challenging...' : "Devil's Advocate"}
+            </Button>
+          )}
           {llmConfig.enabled && (
             <Button
               onClick={handleAISuggest}

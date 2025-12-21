@@ -2,28 +2,35 @@ import { ReactNode, useEffect } from 'react';
 import { X } from 'lucide-react';
 
 interface DialogProps {
-  open: boolean;
+  open?: boolean;
+  isOpen?: boolean; // alias for open
   onClose: () => void;
-  title: string;
+  title: ReactNode;
   children: ReactNode;
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+  maxWidth?: 'sm' | 'md' | 'lg' | 'xl' | '2xl'; // alias for size
 }
 
-export function Dialog({ open, onClose, title, children, size = 'md' }: DialogProps) {
+export function Dialog({ open, isOpen, onClose, title, children, size = 'md', maxWidth }: DialogProps) {
+  // Support both open and isOpen props
+  const isDialogOpen = open ?? isOpen ?? false;
+  // Support both size and maxWidth props
+  const dialogSize = maxWidth ?? size;
+
   // Handle escape key
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && open) {
+      if (e.key === 'Escape' && isDialogOpen) {
         onClose();
       }
     };
     document.addEventListener('keydown', handleEscape);
     return () => document.removeEventListener('keydown', handleEscape);
-  }, [open, onClose]);
+  }, [isDialogOpen, onClose]);
 
   // Prevent body scroll when open
   useEffect(() => {
-    if (open) {
+    if (isDialogOpen) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
@@ -31,15 +38,16 @@ export function Dialog({ open, onClose, title, children, size = 'md' }: DialogPr
     return () => {
       document.body.style.overflow = '';
     };
-  }, [open]);
+  }, [isDialogOpen]);
 
-  if (!open) return null;
+  if (!isDialogOpen) return null;
 
   const sizes = {
     sm: 'max-w-sm',
     md: 'max-w-md',
     lg: 'max-w-lg',
     xl: 'max-w-xl',
+    '2xl': 'max-w-2xl',
   };
 
   return (
@@ -51,7 +59,7 @@ export function Dialog({ open, onClose, title, children, size = 'md' }: DialogPr
       />
 
       {/* Dialog */}
-      <div className={`relative w-full ${sizes[size]} bg-gray-800 rounded-xl shadow-2xl border border-gray-700`}>
+      <div className={`relative w-full ${sizes[dialogSize]} bg-gray-800 rounded-xl shadow-2xl border border-gray-700`}>
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-700">
           <h2 className="text-lg font-semibold text-white">{title}</h2>

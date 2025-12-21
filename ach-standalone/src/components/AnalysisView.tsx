@@ -11,6 +11,7 @@ import { StepConclusions } from './steps/StepConclusions';
 import { StepSensitivity } from './steps/StepSensitivity';
 import { StepReport } from './steps/StepReport';
 import { LLMSettings } from './LLMSettings';
+import { DevilsAdvocateDialog } from './DevilsAdvocateDialog';
 import { ArrowLeft, ChevronLeft, ChevronRight, HelpCircle, Settings } from 'lucide-react';
 import { Button } from './ui/Button';
 
@@ -165,6 +166,9 @@ export function AnalysisView() {
 
       {/* LLM Settings Dialog */}
       <LLMSettings open={showLLMSettings} onClose={() => setShowLLMSettings(false)} />
+
+      {/* Devil's Advocate Dialog */}
+      <DevilsAdvocateDialog />
     </div>
   );
 }

@@ -65,6 +65,14 @@ Use this rating scale:
 For each hypothesis, provide a rating and a brief explanation (1 sentence).
 Format each line as: "[Hypothesis Label]: [RATING] - [Brief explanation]"
 Example: "H1: CC - This evidence directly supports the hypothesis because..."`,
+
+  devilsAdvocate: `You are a devil's advocate challenging an intelligence analysis.
+Your role is to stress-test hypotheses by finding weaknesses, counter-arguments, and blind spots.
+Be critical but constructive - the goal is to strengthen the analysis by identifying what could be wrong.
+For each hypothesis, provide:
+1. The strongest counter-argument against this hypothesis
+2. What evidence would DISPROVE this hypothesis (if found)
+3. An alternative angle or consideration they may have missed`,
 };
 
 export async function callLLM(
@@ -103,7 +111,7 @@ export async function callLLM(
         headers,
         body: JSON.stringify({
           model: config.model,
-          max_tokens: 1024,
+          max_tokens: 4096,
           system: systemMessage,
           messages: otherMessages.map(m => ({
             role: m.role,
@@ -127,7 +135,7 @@ export async function callLLM(
         body: JSON.stringify({
           model: config.model,
           messages,
-          max_tokens: 1024,
+          max_tokens: 4096,
           temperature: 0.7,
         }),
       });
@@ -304,4 +312,103 @@ For this evidence, suggest a rating (CC/C/N/I/II) for each hypothesis and explai
   }
 
   return { success: true, suggestions };
+}
+
+export interface Challenge {
+  hypothesisId: string;
+  hypothesisLabel: string;
+  counterArgument: string;
+  disproofEvidence: string;
+  alternativeAngle: string;
+}
+
+export async function challengeHypotheses(
+  config: LLMConfig,
+  focusQuestion: string,
+  hypotheses: Hypothesis[],
+  targetHypothesisId?: string // If provided, only challenge this hypothesis
+): Promise<{ success: boolean; challenges: Challenge[]; error?: string }> {
+  // Filter to target hypothesis if specified
+  const hypothesesToChallenge = targetHypothesisId
+    ? hypotheses.filter(h => h.id === targetHypothesisId)
+    : hypotheses;
+
+  if (hypothesesToChallenge.length === 0) {
+    return { success: false, challenges: [], error: 'No hypotheses to challenge' };
+  }
+
+  const hypothesesList = hypothesesToChallenge.map(h => `${h.label}: ${h.description}`).join('\n');
+
+  const result = await callLLM(config, [
+    { role: 'system', content: SYSTEM_PROMPTS.devilsAdvocate },
+    {
+      role: 'user',
+      content: `FOCUS QUESTION:
+${focusQuestion}
+
+HYPOTHESES TO CHALLENGE:
+${hypothesesList}
+
+Generate a challenge for EACH hypothesis. For each one, provide:
+1. Counter-argument: The strongest argument AGAINST this hypothesis
+2. Disproof evidence: What evidence would DISPROVE this hypothesis if found
+3. Alternative angle: A consideration or angle they may have missed
+
+Format your response as JSON:
+{
+  "challenges": [
+    {
+      "hypothesis_label": "H1",
+      "counter_argument": "The main weakness...",
+      "disproof_evidence": "This would be disproved if...",
+      "alternative_angle": "Consider instead..."
+    }
+  ]
+}`,
+    },
+  ]);
+
+  if (!result.success) {
+    return { success: false, challenges: [], error: result.error };
+  }
+
+  console.log('Raw LLM response for challenges:', result.content);
+
+  try {
+    // Clean up the response - remove markdown code blocks if present
+    let cleaned = result.content;
+    if (cleaned.includes('```json')) {
+      cleaned = cleaned.split('```json')[1].split('```')[0];
+    } else if (cleaned.includes('```')) {
+      const parts = cleaned.split('```');
+      if (parts.length > 1) {
+        cleaned = parts[1];
+      }
+    }
+
+    const data = JSON.parse(cleaned);
+    const rawChallenges = data.challenges || [];
+    console.log('Parsed challenges from LLM:', rawChallenges);
+    console.log('Available hypotheses:', hypotheses.map(h => h.label));
+
+    // Map to our Challenge interface
+    const challenges: Challenge[] = rawChallenges
+      .map((c: { hypothesis_label?: string; counter_argument?: string; disproof_evidence?: string; alternative_angle?: string }) => {
+        const hypothesis = hypotheses.find(h => h.label === c.hypothesis_label);
+        if (!hypothesis) return null;
+        return {
+          hypothesisId: hypothesis.id,
+          hypothesisLabel: c.hypothesis_label || '',
+          counterArgument: c.counter_argument || '',
+          disproofEvidence: c.disproof_evidence || '',
+          alternativeAngle: c.alternative_angle || '',
+        };
+      })
+      .filter((c: Challenge | null): c is Challenge => c !== null);
+
+    return { success: true, challenges };
+  } catch {
+    // If JSON parsing fails, try to extract challenges from text
+    return { success: false, challenges: [], error: 'Failed to parse AI response as JSON' };
+  }
 }

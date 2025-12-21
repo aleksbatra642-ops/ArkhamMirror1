@@ -19,6 +19,7 @@ import type {
   LLMProvider,
 } from '../types';
 import { LLM_PROVIDERS } from '../types';
+import { challengeHypotheses, type Challenge } from '../services/llmService';
 
 // Generate unique IDs
 const generateId = () => crypto.randomUUID();
@@ -67,6 +68,12 @@ interface ACHState {
 
   // LLM config
   llmConfig: LLMConfig;
+
+  // Devil's advocate challenges
+  challenges: Challenge[];
+  showChallengesDialog: boolean;
+  challengeTargetHypothesisId: string | null; // null = all, string = specific hypothesis
+  isChallenging: boolean;
 
   // Computed getters
   getCurrentAnalysis: () => Analysis | null;
@@ -127,6 +134,11 @@ interface ACHState {
   exportToMarkdown: () => string;
   exportToPDF: () => void;
   importFromJSON: (json: string) => boolean;
+
+  // Devil's advocate
+  requestChallenges: (hypothesisId?: string) => Promise<void>;
+  saveChallengesAsNotes: () => void;
+  closeChallengesDialog: () => void;
 }
 
 export const useACHStore = create<ACHState>()(
@@ -147,6 +159,12 @@ export const useACHStore = create<ACHState>()(
         model: LLM_PROVIDERS.lmstudio.defaultModel,
         connectionStatus: 'untested' as const,
       },
+
+      // Devil's advocate state
+      challenges: [],
+      showChallengesDialog: false,
+      challengeTargetHypothesisId: null,
+      isChallenging: false,
 
       // Get current analysis
       getCurrentAnalysis: () => {
@@ -1021,6 +1039,101 @@ export const useACHStore = create<ACHState>()(
         } catch {
           return false;
         }
+      },
+
+      // Devil's advocate - request challenges from LLM
+      requestChallenges: async (hypothesisId) => {
+        const { llmConfig, getCurrentAnalysis } = get();
+        const analysis = getCurrentAnalysis();
+
+        if (!analysis || !llmConfig.enabled) {
+          return;
+        }
+
+        set({
+          isChallenging: true,
+          challengeTargetHypothesisId: hypothesisId || null,
+          challenges: [],
+        });
+
+        try {
+          const result = await challengeHypotheses(
+            llmConfig,
+            analysis.focusQuestion,
+            analysis.hypotheses,
+            hypothesisId
+          );
+
+          console.log('Challenge result:', result);
+
+          if (result.success && result.challenges.length > 0) {
+            set({
+              challenges: result.challenges,
+              showChallengesDialog: true,
+              isChallenging: false,
+            });
+          } else {
+            console.warn('No challenges returned:', result.error || 'Empty response');
+            set({
+              isChallenging: false,
+            });
+            // Show error via alert for now
+            if (result.error) {
+              alert(`Devil's Advocate error: ${result.error}`);
+            } else {
+              alert("Devil's Advocate: No challenges were generated. The AI may have returned an unexpected format.");
+            }
+          }
+        } catch (error) {
+          console.error('Error requesting challenges:', error);
+          set({ isChallenging: false });
+          alert(`Devil's Advocate error: ${error instanceof Error ? error.message : 'Unknown error'}`);
+        }
+      },
+
+      // Save challenges to sensitivity notes
+      saveChallengesAsNotes: () => {
+        const { challenges, getCurrentAnalysis } = get();
+        const analysis = getCurrentAnalysis();
+
+        if (!analysis || challenges.length === 0) {
+          return;
+        }
+
+        // Format challenges as text
+        const timestamp = new Date().toLocaleString();
+        let challengeText = `\n\n--- Devil's Advocate Challenges (${timestamp}) ---\n`;
+
+        for (const c of challenges) {
+          challengeText += `\n[${c.hypothesisLabel}]\n`;
+          challengeText += `  Counter: ${c.counterArgument}\n`;
+          challengeText += `  Disproof: ${c.disproofEvidence}\n`;
+          challengeText += `  Alternative: ${c.alternativeAngle}\n`;
+        }
+
+        // Append to sensitivity notes
+        const currentNotes = analysis.sensitivityNotes || '';
+        const newNotes = currentNotes + challengeText;
+
+        // Update the analysis
+        set(state => ({
+          analyses: state.analyses.map(a =>
+            a.id === analysis.id
+              ? { ...a, sensitivityNotes: newNotes, updatedAt: new Date().toISOString() }
+              : a
+          ),
+          showChallengesDialog: false,
+          challenges: [],
+        }));
+      },
+
+      // Close challenges dialog
+      closeChallengesDialog: () => {
+        set({
+          showChallengesDialog: false,
+          challenges: [],
+          challengeTargetHypothesisId: null,
+        });
       },
     }),
     {
