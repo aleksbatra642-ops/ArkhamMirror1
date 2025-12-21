@@ -26,6 +26,19 @@ ArkhamMirror is an air-gapped, AI-powered investigation platform for journalists
 
 ---
 
+## Try ACH Online - No Installation Required
+
+**[Launch the ACH Tool](https://mantisfury.github.io/ArkhamMirror/ach/)** - A standalone Analysis of Competing Hypotheses tool that runs entirely in your browser.
+
+- Based on Richard Heuer's CIA methodology for evaluating competing explanations
+- All data stays in your browser's localStorage - nothing is sent to any server
+- Optional AI assistance via your own API keys (OpenAI, Groq, Anthropic, or local LLMs)
+- Export analyses as JSON, Markdown, or PDF reports
+
+Perfect for quick analyses without setting up the full ArkhamMirror platform.
+
+---
+
 ## 🚀 Getting Started
 
 ArkhamMirror includes a **Smart Installer** that sets up Python, Docker, and Database dependencies for you.
