@@ -111,7 +111,7 @@ export async function callLLM(
         headers,
         body: JSON.stringify({
           model: config.model,
-          max_tokens: 1024,
+          max_tokens: 4096,
           system: systemMessage,
           messages: otherMessages.map(m => ({
             role: m.role,
@@ -135,7 +135,7 @@ export async function callLLM(
         body: JSON.stringify({
           model: config.model,
           messages,
-          max_tokens: 1024,
+          max_tokens: 4096,
           temperature: 0.7,
         }),
       });
@@ -372,6 +372,8 @@ Format your response as JSON:
     return { success: false, challenges: [], error: result.error };
   }
 
+  console.log('Raw LLM response for challenges:', result.content);
+
   try {
     // Clean up the response - remove markdown code blocks if present
     let cleaned = result.content;
@@ -386,6 +388,8 @@ Format your response as JSON:
 
     const data = JSON.parse(cleaned);
     const rawChallenges = data.challenges || [];
+    console.log('Parsed challenges from LLM:', rawChallenges);
+    console.log('Available hypotheses:', hypotheses.map(h => h.label));
 
     // Map to our Challenge interface
     const challenges: Challenge[] = rawChallenges

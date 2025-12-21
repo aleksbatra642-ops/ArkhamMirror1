@@ -1064,6 +1064,8 @@ export const useACHStore = create<ACHState>()(
             hypothesisId
           );
 
+          console.log('Challenge result:', result);
+
           if (result.success && result.challenges.length > 0) {
             set({
               challenges: result.challenges,
@@ -1071,14 +1073,21 @@ export const useACHStore = create<ACHState>()(
               isChallenging: false,
             });
           } else {
+            console.warn('No challenges returned:', result.error || 'Empty response');
             set({
               isChallenging: false,
             });
-            // Could add error handling UI here if needed
+            // Show error via alert for now
+            if (result.error) {
+              alert(`Devil's Advocate error: ${result.error}`);
+            } else {
+              alert("Devil's Advocate: No challenges were generated. The AI may have returned an unexpected format.");
+            }
           }
         } catch (error) {
           console.error('Error requesting challenges:', error);
           set({ isChallenging: false });
+          alert(`Devil's Advocate error: ${error instanceof Error ? error.message : 'Unknown error'}`);
         }
       },
 
