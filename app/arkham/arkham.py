@@ -1,6 +1,20 @@
+import os
+import sys
+
+# =============================================================================
+# WINDOWS CONSOLE FIX - MUST BE FIRST
+# =============================================================================
+# Set environment variables BEFORE any imports that might use tqdm/transformers.
+# This prevents "OSError: [Errno 22] Invalid argument" on Windows when running
+# under Reflex's backend context with redirected stdout/stderr.
+# =============================================================================
+os.environ["HF_HUB_DISABLE_PROGRESS_BARS"] = "1"
+os.environ["TRANSFORMERS_NO_ADVISORY_WARNINGS"] = "1"
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
+os.environ["TQDM_DISABLE"] = "1"
+
 import reflex as rx
 import logging
-import sys
 
 # Initialize logging BEFORE any other imports
 from .utils.logging_config import setup_logging, log_exception

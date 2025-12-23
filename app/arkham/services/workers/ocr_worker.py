@@ -5,6 +5,7 @@ os.environ.setdefault("PADDLE_PDX_DISABLE_MODEL_SOURCE_CHECK", "True")
 
 from config.settings import DATABASE_URL, REDIS_URL, PAGES_DIR
 import hashlib
+import json
 import logging
 import numpy as np
 from PIL import Image
@@ -133,7 +134,8 @@ def process_page_job(doc_id, doc_hash, page_num, image_path, ocr_mode="paddle"):
                 return
 
         else:
-            # --- PaddleOCR Strategy ---
+            # --- PaddleOCR Strategy with Qwen Fallback ---
+            paddle_failed = False
             try:
                 ocr_engine = get_paddle_engine()
                 image = Image.open(image_path)
@@ -145,10 +147,30 @@ def process_page_job(doc_id, doc_hash, page_num, image_path, ocr_mode="paddle"):
                 logger.error(
                     f"PaddleOCR Engine failed for {image_path}: {e}\n{traceback.format_exc()}"
                 )
-                return
+                paddle_failed = True
+                result = None
 
-            # Extract text and metadata
-            if result and result[0]:
+            # --- Qwen Fallback if PaddleOCR failed ---
+            if paddle_failed:
+                logger.info(f"Attempting Qwen-VL fallback for {image_path}...")
+                try:
+                    text = transcribe_image(image_path)
+                    if text:
+                        page_text = text
+                        ocr_meta = [{"fallback": "qwen", "reason": "paddle_failed"}]
+                        logger.info(f"Qwen-VL fallback successful for page {page_num}")
+                    else:
+                        logger.warning(f"Qwen-VL fallback returned empty text for {image_path}")
+                        raise Exception("Both PaddleOCR and Qwen-VL failed to extract text")
+                except Exception as fallback_e:
+                    logger.error(f"Qwen-VL fallback also failed: {fallback_e}")
+                    raise Exception(f"OCR failed - PaddleOCR error, Qwen fallback error: {fallback_e}")
+
+            # Extract text and metadata (skip if we already got text from fallback)
+            if paddle_failed and page_text:
+                # Already processed via Qwen fallback
+                pass
+            elif result and result[0]:
                 # Handle PaddleX / New PaddleOCR structure
                 ocr_res = result[0]
 
