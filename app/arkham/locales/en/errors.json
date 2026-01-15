@@ -1,0 +1,21 @@
+{
+  "network_error": "Network error. Please check your connection.",
+  "server_error": "Server error (500). Please try again later.",
+  "not_found": "Resource not found (404).",
+  "unauthorized": "Authorization error. Please sign in again.",
+  "forbidden": "Access denied. You don't have permission for this action.",
+  "bad_request": "Invalid request. Please check your input.",
+  "timeout": "Request timeout. Please try again.",
+  "invalid_response": "Invalid server response. Please try again.",
+  "connection_refused": "Connection refused. The server might be unavailable.",
+  "api_error": "API Error",
+  "validation_error": "Validation Error",
+  "please_try_again": "Please try again.",
+  "contact_support": "If the problem persists, please contact support.",
+  "failed_to_load": "Failed to load data",
+  "failed_to_save": "Failed to save",
+  "failed_to_delete": "Failed to delete",
+  "item_not_found": "The selected item was not found",
+  "duplicate_error": "This item already exists",
+  "permission_denied": "Permission denied"
+}
