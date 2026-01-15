@@ -1,0 +1,107 @@
+{
+  "home": {
+    "title": "Home",
+    "welcome": "Welcome to ArkhamMirror",
+    "description": "A platform for analyzing complex information networks and interconnections",
+    "features": "Features",
+    "get_started": "Start Investigation"
+  },
+  
+  "knowledge": {
+    "title": "Knowledge",
+    "add_new": "Add Knowledge",
+    "edit": "Edit Knowledge",
+    "delete": "Delete Knowledge",
+    "delete_confirm": "Are you sure you want to delete this knowledge?",
+    "empty": "No knowledge items found. Add your first knowledge!",
+    "created_at": "Created",
+    "updated_at": "Updated",
+    "tags": "Tags",
+    "source": "Source",
+    "content": "Content"
+  },
+  
+  "entities": {
+    "title": "Entities",
+    "add_new": "Add Entity",
+    "edit": "Edit Entity",
+    "delete": "Delete Entity",
+    "delete_confirm": "Are you sure you want to delete this entity?",
+    "empty": "No entities found",
+    "type": "Type",
+    "name": "Name",
+    "description": "Description",
+    "aliases": "Alternative Names",
+    "types": {
+      "PERSON": "Person",
+      "ORGANIZATION": "Organization",
+      "LOCATION": "Location",
+      "EVENT": "Event",
+      "OBJECT": "Object",
+      "CONCEPT": "Concept",
+      "DOCUMENT": "Document"
+    }
+  },
+  
+  "search": {
+    "title": "Search",
+    "results": "Search Results",
+    "no_results": "No results found",
+    "filters": "Filters",
+    "search_type": "Search Type",
+    "semantic": "Semantic",
+    "fulltext": "Full Text",
+    "keyword": "Keyword",
+    "advanced": "Advanced Search"
+  },
+  
+  "graph": {
+    "title": "Knowledge Graph",
+    "entity_relations": "Entity Relations",
+    "loading_graph": "Loading graph...",
+    "no_data": "No data available for graph",
+    "depth": "Relation Depth",
+    "zoom": "Zoom",
+    "fit": "Fit to Screen",
+    "center": "Center"
+  },
+  
+  "qa": {
+    "title": "Questions & Answers",
+    "ask_question": "Ask Question",
+    "question_placeholder": "Enter your question...",
+    "no_context": "No context",
+    "confidence": "Confidence",
+    "sources": "Sources",
+    "answer": "Answer"
+  },
+  
+  "timeline": {
+    "title": "Timeline",
+    "events": "Events",
+    "date": "Date",
+    "event_description": "Event Description",
+    "no_events": "No events found",
+    "add_event": "Add Event"
+  },
+  
+  "contradictions": {
+    "title": "Contradictions",
+    "statement_1": "Statement 1",
+    "statement_2": "Statement 2",
+    "conflict_type": "Conflict Type",
+    "severity": "Severity",
+    "no_contradictions": "No contradictions found"
+  },
+  
+  "ach": {
+    "title": "Analysis of Competing Hypotheses",
+    "hypothesis": "Hypothesis",
+    "add_hypothesis": "Add Hypothesis",
+    "evidence": "Evidence",
+    "supporting": "Supporting",
+    "inconsistent": "Inconsistent",
+    "consistency_score": "Consistency Score",
+    "analysis_result": "Analysis Result"
+  }
+}
