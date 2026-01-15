@@ -1,0 +1,96 @@
+{
+  "header": {
+    "search": "Поиск",
+    "menu": "Меню",
+    "profile": "Профиль",
+    "settings": "Параметры",
+    "help": "Справка",
+    "language_selector": "Выбор языка",
+    "english": "English",
+    "russian": "Русский"
+  },
+  
+  "sidebar": {
+    "dashboard": "Панель инструментов",
+    "knowledge": "Знания",
+    "entities": "Сущности",
+    "relations": "Связи",
+    "search": "Поиск",
+    "graph": "Граф",
+    "qa": "Q&A",
+    "tools": "Инструменты",
+    "timeline": "Временная шкала",
+    "contradictions": "Противоречия",
+    "ach": "АКГ",
+    "author_unmasking": "Идентификация автора",
+    "narrative": "Восстановление повествования"
+  },
+  
+  "forms": {
+    "title": "Название",
+    "description": "Описание",
+    "content": "Содержимое",
+    "source_url": "URL источника",
+    "source_type": "Тип источника",
+    "tags": "Теги",
+    "metadata": "Метаданные",
+    "author": "Автор",
+    "date": "Дата",
+    "language": "Язык",
+    "confidence": "Уверенность",
+    "verified": "Проверено",
+    "required_field": "Обязательное поле",
+    "invalid_input": "Неверный ввод",
+    "too_long": "Слишком длинный текст",
+    "too_short": "Слишком короткий текст"
+  },
+  
+  "modals": {
+    "confirm_delete": "Подтвердить удаление",
+    "are_you_sure": "Вы уверены? Это действие нельзя отменить.",
+    "confirm": "Подтвердить",
+    "cancel": "Отмена"
+  },
+  
+  "loading": {
+    "loading": "Загружка...",
+    "saving": "Сохранение...",
+    "deleting": "Удаление...",
+    "processing": "Обработка..."
+  },
+  
+  "pagination": {
+    "page": "Страница",
+    "of": "из",
+    "showing": "Показано",
+    "items": "элементов",
+    "per_page": "на странице",
+    "first": "Первая",
+    "last": "Последняя",
+    "next_page": "Некстра",
+    "previous_page": "Предыдущая"
+  },
+  
+  "tables": {
+    "column_name": "Название",
+    "column_type": "Тип",
+    "column_value": "Значение",
+    "no_data": "Нет данных",
+    "column_actions": "Действия",
+    "sort_asc": "Возрастающе",
+    "sort_desc": "Убывающе"
+  },
+  
+  "filters": {
+    "filter_by": "Фильтровать по",
+    "apply": "Применить",
+    "clear": "Очистить",
+    "date_range": "Период",
+    "start_date": "Дата начала",
+    "end_date": "Дата конца",
+    "from": "От",
+    "to": "До",
+    "all": "Все",
+    "none": "Никакие"
+  }
+}
