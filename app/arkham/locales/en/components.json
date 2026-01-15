@@ -1,0 +1,96 @@
+{
+  "header": {
+    "search": "Search",
+    "menu": "Menu",
+    "profile": "Profile",
+    "settings": "Settings",
+    "help": "Help",
+    "language_selector": "Language",
+    "english": "English",
+    "russian": "Русский"
+  },
+  
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "knowledge": "Knowledge",
+    "entities": "Entities",
+    "relations": "Relations",
+    "search": "Search",
+    "graph": "Graph",
+    "qa": "Q&A",
+    "tools": "Tools",
+    "timeline": "Timeline",
+    "contradictions": "Contradictions",
+    "ach": "ACH",
+    "author_unmasking": "Author Identification",
+    "narrative": "Narrative Restoration"
+  },
+  
+  "forms": {
+    "title": "Title",
+    "description": "Description",
+    "content": "Content",
+    "source_url": "Source URL",
+    "source_type": "Source Type",
+    "tags": "Tags",
+    "metadata": "Metadata",
+    "author": "Author",
+    "date": "Date",
+    "language": "Language",
+    "confidence": "Confidence",
+    "verified": "Verified",
+    "required_field": "This field is required",
+    "invalid_input": "Invalid input",
+    "too_long": "Text is too long",
+    "too_short": "Text is too short"
+  },
+  
+  "modals": {
+    "confirm_delete": "Confirm Delete",
+    "are_you_sure": "Are you sure? This action cannot be undone.",
+    "confirm": "Confirm",
+    "cancel": "Cancel"
+  },
+  
+  "loading": {
+    "loading": "Loading...",
+    "saving": "Saving...",
+    "deleting": "Deleting...",
+    "processing": "Processing..."
+  },
+  
+  "pagination": {
+    "page": "Page",
+    "of": "of",
+    "showing": "Showing",
+    "items": "items",
+    "per_page": "per page",
+    "first": "First",
+    "last": "Last",
+    "next_page": "Next",
+    "previous_page": "Previous"
+  },
+  
+  "tables": {
+    "column_name": "Name",
+    "column_type": "Type",
+    "column_value": "Value",
+    "no_data": "No data",
+    "column_actions": "Actions",
+    "sort_asc": "Ascending",
+    "sort_desc": "Descending"
+  },
+  
+  "filters": {
+    "filter_by": "Filter by",
+    "apply": "Apply",
+    "clear": "Clear",
+    "date_range": "Date Range",
+    "start_date": "Start Date",
+    "end_date": "End Date",
+    "from": "From",
+    "to": "To",
+    "all": "All",
+    "none": "None"
+  }
+}
